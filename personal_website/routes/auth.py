@@ -25,8 +25,10 @@ def login():
             error = 'Incorrect email.'
         elif not check_password_hash(user[2], password):
             error = 'Incorrect password.'
+
         if error is None:
-            return 'We redirect to the admin page'
-        else:
-            print(error)
+            session.clear()
+            session['user_id'] = user[0]
+            return redirect(url_for('admin.admin'))
+        flash(error)
     return render_template('auth/login.html')
