@@ -7,6 +7,15 @@ from personal_website.db import get_connection
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        user_id = session.get('user_id')
+        if user_id is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrapped_view
+
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -32,3 +41,8 @@ def login():
             return redirect(url_for('admin.admin'))
         flash(error)
     return render_template('auth/login.html')
+
+@auth_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('home.home'))
