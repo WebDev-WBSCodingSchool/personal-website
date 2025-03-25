@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*html": "jinja-html"
+  },
+  "emmet.includeLanguages": { "jinja-html": "html" },
+  "[html][django-html][handlebars][hbs][mustache][jinja][jinja-html][nj][njk][nunjucks][twig]": {
+    "editor.defaultFormatter": "monosans.djlint"
+  }
+}
