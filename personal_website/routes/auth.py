@@ -10,5 +10,23 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        print('Login logic goes here')
+        email = request.form['email']
+        password = request.form['password']
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(
+            'SELECT * FROM users WHERE email = %s', (email,)
+        )
+        user = cur.fetchone()
+        cur.close()
+        conn.close()
+        error = None
+        if user is None:
+            error = 'Incorrect email.'
+        elif not check_password_hash(user[2], password):
+            error = 'Incorrect password.'
+        if error is None:
+            return 'We redirect to the admin page'
+        else:
+            print(error)
     return render_template('auth/login.html')
