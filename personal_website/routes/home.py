@@ -31,4 +31,4 @@ def home():
             'description': project[4]
         })
     data['projects'] = projects
-    return render_template('home.html', data=data, name=data['name'])
+    return render_template('homepage/home.html', data=data, name=data['name'])
