@@ -100,4 +100,38 @@ def edit_profile():
 @admin_bp.route('/edit-projects')
 @login_required
 def edit_projects():
-   return render_template('admin/edit-projects.html')
+   conn = get_connection()
+   cur = conn.cursor()
+   cur.execute("SELECT * FROM projects")
+   result_from_projects = cur.fetchall()
+   cur.close()
+   conn.close()
+   projects = []
+   for project in result_from_projects:
+      projects.append({
+         'id': project[0],
+         'name': project[1],
+         'demo_url': project[2],
+         'image': project[3],
+         'description': project[4]
+      })
+   return render_template('admin/edit-projects.html', projects=projects)
+
+@admin_bp.route('/edit-project/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_project(id):
+   if request.method == 'POST':
+      print('POST')
+      return 'Edit project POST'
+   return f"Edit project {id}"
+
+@admin_bp.post('/delete-project/<int:id>')
+@login_required
+def delete_project(id):
+   conn = get_connection()
+   cur = conn.cursor()
+   cur.execute("DELETE FROM projects WHERE project_id = %s", (id,))
+   conn.commit()
+   cur.close()
+   conn.close()
+   return redirect(url_for('admin.edit_projects'))

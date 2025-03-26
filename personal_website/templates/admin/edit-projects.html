@@ -1,4 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Edit Projects</h1>
+    <h1 class="text-3xl font-bold text-primary mb-6">Edit Projects</h1>
+    <div class="grid gap-6">
+        {% for project in projects %}
+            <div class="card card-side bg-base-100 shadow-md hover:shadow-xl transition">
+                <figure>
+                    <img src="{{ project.image }}"
+                         alt="{{ project.name }}"
+                         class="object-cover h-48 w-full"
+                         height="192"
+                         width="356" />
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title">{{ project.name }}</h2>
+                    <p>{{ project.description }}</p>
+                    <div class="card-actions justify-end">
+                        <a href="{{ url_for('admin.edit_project', id=project['id']) }}"
+                           class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ url_for('admin.delete_project', id=project['id']) }}"
+                              method="post">
+                            <button type="submit" class="btn btn-sm btn-error">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
