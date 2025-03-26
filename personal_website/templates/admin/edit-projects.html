@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1 class="text-3xl font-bold text-primary mb-6">Edit Projects</h1>
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-primary mb-6">Edit Projects</h1>
+        <a href="{{ url_for('admin.add_project') }}"
+           class="btn btn-primary mb-6">Create New Project</a>
+    </div>
     <div class="grid gap-6">
         {% for project in projects %}
-            <div class="card card-side bg-base-100 shadow-md hover:shadow-xl transition">
-                <figure>
+            <div class="card md:card-side bg-base-100 shadow-md hover:shadow-xl transition">
+                <figure class="md:w-72 md:h-48">
                     <img src="{{ project.image }}"
                          alt="{{ project.name }}"
-                         class="object-cover h-48 w-full"
+                         class="w-full h-full object-cover"
                          height="192"
-                         width="356" />
+                         width="288" />
                 </figure>
                 <div class="card-body">
                     <h2 class="card-title">{{ project.name }}</h2>

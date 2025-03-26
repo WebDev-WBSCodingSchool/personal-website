@@ -97,6 +97,55 @@ def edit_profile():
    }
    return render_template('admin/edit-profile.html', data=data)
 
+@admin_bp.route('/add-project', methods=['GET', 'POST'])
+@login_required
+def add_project():
+   if request.method == 'POST':
+      error = None
+      data_uri = None
+      name = request.form['name']
+      demo_url = request.form['demo_url']
+      description = request.form['description']
+      image = request.files['image']
+      if(not name):
+         error = 'Project name is required'
+      elif(not demo_url):
+         error = 'Demo URL is required'
+      elif(not description):
+         error = 'Description is required'
+
+      if image:
+         allowed_extensions = ['image/jpeg', 'image/png', 'image/jpg']
+         media_type = image.mimetype
+         if(media_type not in allowed_extensions):
+            error = 'Invalid file type. Please upload an image file'
+         else:
+            image_bytes = image.read()
+            if(len(image_bytes) > 5000000):
+               error = 'Image file is too large. Max size is 5MB'
+            else:
+               base64_data = base64.b64encode(image_bytes).decode('utf-8')
+               data_uri = f"data:image/{media_type};base64,{base64_data}"
+
+      if error is None:
+         conn = get_connection()
+         cur = conn.cursor()
+         cur.execute(
+            '''
+            INSERT INTO projects (project_name, demo_url, image, description)
+            VALUES (%s, %s, %s, %s)
+            ''',
+            (name, demo_url, data_uri, description)
+         )
+         conn.commit()
+         cur.close()
+         conn.close()
+         return redirect(url_for('admin.edit_projects'))
+      else:
+         flash(error)
+         return redirect(url_for('admin.add_project'))
+   return render_template('admin/add-project.html')
+
 @admin_bp.route('/edit-projects')
 @login_required
 def edit_projects():
@@ -121,9 +170,76 @@ def edit_projects():
 @login_required
 def edit_project(id):
    if request.method == 'POST':
-      print('POST')
-      return 'Edit project POST'
-   return f"Edit project {id}"
+      error = None
+      data_uri = None
+      name = request.form['name']
+      demo_url = request.form['demo_url']
+      description = request.form['description']
+      image = request.files['image']
+      if(not name):
+         error = 'Project name is required'
+      elif(not demo_url):
+         error = 'Demo URL is required'
+      elif(not description):
+         error = 'Description is required'
+
+      if image:
+         allowed_extensions = ['image/jpeg', 'image/png', 'image/jpg']
+         media_type = image.mimetype
+         if(media_type not in allowed_extensions):
+            error = 'Invalid file type. Please upload an image file'
+         else:
+            image_bytes = image.read()
+            if(len(image_bytes) > 5000000):
+               error = 'Image file is too large. Max size is 5MB'
+            else:
+               base64_data = base64.b64encode(image_bytes).decode('utf-8')
+               data_uri = f"data:image/{media_type};base64,{base64_data}"
+
+      if error is None:
+         conn = get_connection()
+         cur = conn.cursor()
+         if data_uri is None:
+            cur.execute(
+               '''
+               UPDATE projects
+               SET project_name = %s, demo_url = %s, description = %s
+               WHERE project_id = %s
+               ''',
+               (name, demo_url, description, id)
+            )
+         else:
+            cur.execute(
+               '''
+               UPDATE projects
+               SET project_name = %s, demo_url = %s, image = %s, description = %s
+               WHERE project_id = %s
+               ''',
+               (name, demo_url, data_uri, description, id)
+            )
+         conn.commit()
+         cur.close()
+         conn.close()
+         return redirect(url_for('admin.edit_projects'))
+      else:
+         flash(error)
+         return redirect(url_for('admin.edit_project', id=id))
+   conn = get_connection()
+   cur = conn.cursor()
+   cur.execute("SELECT * FROM projects WHERE project_id = %s", (id,))
+   project = cur.fetchone()
+   cur.close()
+   conn.close()
+   if project is None:
+      return render_template('404.html'), 404
+   data = {
+      'id': project[0],
+      'name': project[1],
+      'demo_url': project[2],
+      'image': project[3],
+      'description': project[4]
+   }
+   return render_template('admin/edit-project.html', data=data)
 
 @admin_bp.post('/delete-project/<int:id>')
 @login_required
