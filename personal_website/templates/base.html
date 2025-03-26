@@ -31,5 +31,20 @@
         {% endif %}
       </nav>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+            function setThemeFromPreference(e) {
+                if (e.matches) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                }
+            }
+            setThemeFromPreference(mediaQuery);
+            mediaQuery.addEventListener('change', setThemeFromPreference);
+        });
+    </script>
   </body>
 </html>
