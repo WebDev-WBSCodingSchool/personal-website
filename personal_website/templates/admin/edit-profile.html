@@ -17,6 +17,18 @@
               method="post"
               enctype="multipart/form-data"
               class="space-y-6">
+            <p class="text-center text-sm text-gray-600">
+                {{ 'Current profile picture' if data['picture'] else 'No profile picture, add one!' }}
+            </p>
+            <img src="{{ data['picture'] or 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png' }}"
+                 alt="Current profile picture"
+                 class="w-24 h-24 rounded-full mx-auto"
+                 width="96"
+                 height="96" />
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Picture</legend>
+                <input name="picture" type="file" class="file-input w-full" />
+            </fieldset>
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Full name</legend>
                 <input name='full_name'
@@ -37,18 +49,6 @@
                        placeholder="Location"
                        value="{{ data['location'] }}" />
             </fieldset>
-            {% if data['picture'] %}
-                <p class="text-center text-sm text-gray-600">Current profile picture</p>
-                <img src="{{ data['picture'] }}"
-                     alt="Current profile picture"
-                     class="w-24 h-24 rounded-full mx-auto"
-                     width="96"
-                     height="96" />
-            {% endif %}
-            <fieldset class="fieldset">
-                <legend class="fieldset-legend">Picture</legend>
-                <input name="picture" type="file" class="file-input w-full" />
-            </fieldset>
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Email</legend>
                 <input name='email'
@@ -63,11 +63,11 @@
         </form>
     </div>
     <script>
-  setTimeout(() => {
-    const flash = document.getElementById('flash-messages');
-    if (flash) {
-      flash.remove();
-    }
-  }, 5000);
+        setTimeout(() => {
+            const flash = document.getElementById('flash-messages');
+            if (flash) {
+                flash.remove();
+            }
+        }, 5000);
     </script>
 {% endblock content %}
