@@ -7,7 +7,6 @@ Ideal for educational purposes or as a boilerplate for your own portfolio.
 
 ![Screenshot From 2025-03-31 13-35-50](https://github.com/user-attachments/assets/ab8c095a-4abb-4d63-8104-b479eb27bd60)
 
-
 ## 🔧 Installation
 
 1. **Clone the repository**
@@ -111,3 +110,5 @@ Deletes the project by ID.
 This projects uses [Jinja](https://jinja.palletsprojects.com/en/stable/) templates. DJLint is used for formatting, if you are using VSCode, install the [DJLint](https://marketplace.visualstudio.com/items?itemName=monosans.djlint) extension, some options for VSCode are included in `.vscode/`
 
 Regarding styles, [TailwindCSS](https://tailwindcss.com/) is used with [DaisyUI](https://daisyui.com/) on top.
+
+A `create-database.sql` file is provided to create the relations and seed some sample data.
