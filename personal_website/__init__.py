@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from .routes import admin_bp, auth_bp, home_bp
 from .config import BaseConfig
 

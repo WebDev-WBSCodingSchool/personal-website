@@ -11,7 +11,6 @@ jsbeautifier==1.15.4
 json5==0.10.0
 MarkupSafe==3.0.2
 pathspec==0.12.1
-psycopg-binary==3.2.6
 psycopg2-binary==2.9.10
 PyYAML==6.0.2
 regex==2024.11.6
