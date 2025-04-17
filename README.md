@@ -10,10 +10,12 @@ Ideal for educational purposes or as a boilerplate for your own portfolio.
 ## 🔧 Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone git@github.com:WebDev-WBSCodingSchool/personal-website.git
-   cd personal-website
-   ```
+
+```bash
+git clone git@github.com:WebDev-WBSCodingSchool/personal-website.git
+cd personal-website
+```
+
 2. **Create and activate a virtual environment**
 
 macOS/Linux

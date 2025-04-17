@@ -5,11 +5,13 @@ cssbeautifier==1.15.4
 djlint==1.36.4
 EditorConfig==0.17.0
 Flask==3.1.0
+gunicorn==23.0.0
 itsdangerous==2.2.0
 Jinja2==3.1.6
 jsbeautifier==1.15.4
 json5==0.10.0
 MarkupSafe==3.0.2
+packaging==24.2
 pathspec==0.12.1
 psycopg2-binary==2.9.10
 PyYAML==6.0.2
